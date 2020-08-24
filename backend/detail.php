@@ -1,29 +1,28 @@
-<h2 class="ct">填寫資料</h2>
+
 <?php
-$mem=$Mem->find(['acc'=>$_SESSION['mem']]);
+$ord=$Ord->find($_GET['id']);
 ?>
-<form action="api/checkout.php" method="post">
+<h2 class="ct">訂單編號<span style="color:red"><?=$ord['no'];?></span>的詳細資料</h2>
     <table class="all">
         <tr>
             <td class="tt ct">登入帳號</td>
-            <td class="pp"><?=$_SESSION['mem'];?></td>
-            <input type="hidden" name="acc" value="<?=$_SESSION['mem'];?>" >
+            <td class="pp"><?=$ord['acc'];?></td>
         </tr>
         <tr>
             <td class="tt ct">姓名</td>
-            <td class="pp"><input type="text" name="name" value="<?=$mem['name'];?>"></td>
+            <td class="pp"><?=$ord['name'];?></td>
         </tr>
         <tr>
             <td class="tt ct">電子信箱</td>
-            <td class="pp"><input type="text" name="email" value="<?=$mem['email'];?>"></td>
+            <td class="pp"><?=$ord['email'];?></td>
         </tr>
         <tr>
             <td class="tt ct">聯絡地址</td>
-            <td class="pp"><input type="text" name="addr" value="<?=$mem['addr'];?>"></td>
+            <td class="pp"><?=$ord['addr'];?></td>
         </tr>
         <tr>
             <td class="tt ct">聯絡電話</td>
-            <td class="pp"><input type="text" name="tel" value="<?=$mem['tel'];?>"></td>
+            <td class="pp"><?=$ord['tel'];?></td>
         </tr>
     </table>
     <table class="all">
@@ -35,8 +34,8 @@ $mem=$Mem->find(['acc'=>$_SESSION['mem']]);
             <td>小計</td>
         </tr>
         <?php
-        $total=0;
-        foreach($_SESSION['cart'] as $id => $qt){
+        $cart=unserialize($ord['goods']);
+        foreach($cart as $id => $qt){
             $g=$Goods->find($id);
         ?>
         <tr class="pp">
@@ -47,17 +46,13 @@ $mem=$Mem->find(['acc'=>$_SESSION['mem']]);
             <td><?=$g['price']*$qt;?></td>
         </tr>
         <?php
-        $total=$total+($g['price']*$qt);
         }
         ?>
         <tr class="tt ct">
-            <td colspan="5">總價:<?=$total;?></td>
-            <input type="hidden" name="total" value="<?=$total;?>">
+            <td colspan="5">總價:<?=$ord['total'];?></td>
         </tr>
     </table>
     <div class="ct">
-        <input type="submit" value="確定送出">
-        <input type="button" value="返回修改訂單" onclick="location.href='?do=buycart'">
+        <input type="button" value="返回" onclick="location.href='?do=order'">
     
     </div>
-</form>

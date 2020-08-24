@@ -25,13 +25,55 @@
                 <a href="?do=news">最新消息</a> |
                 <a href="?do=look">購物流程</a> |
                 <a href="?do=buycart">購物車</a> |
-                <a href="?do=login">會員登入</a> |
-                <a href="?do=admin">管理登入</a>
+                <?php
+                if(!empty($_SESSION['mem'])){
+                ?>
+                    <a href="logout.php?logout=mem">登出</a> |
+                <?php
+                }else{
+                ?>
+                    <a href="?do=login">會員登入</a> |
+                <?php
+                }
+                ?>
+                <?php
+                if(!empty($_SESSION['admin'])){
+                ?>
+                    <a href="admin.php">返回管理</a>
+                <?php
+                }else{
+                ?>
+                    <a href="?do=admin">管理登入</a>
+                <?php
+                }
+                ?>
+                
             </div>
             <marquee>年終特賣會開跑了&nbsp;&nbsp;&nbsp;&nbsp;情人節特惠活動</marquee>
         </div>
         <div id="left" class="ct">
             <div style="min-height:400px;">
+            <a href="?type=0">全部商品(<?=$Goods->count(['sh'=>1]);?>)</a>
+            <?php 
+                $bigs=$Type->all(['parent'=>0]);
+                foreach($bigs as $big){
+                    echo "<div class='ww'>";
+                    echo "<a href='?type=".$big['id']."'>".$big['name']."(".$Goods->count(['big'=>$big['id'],'sh'=>1]).")</a>";
+                    if($Type->count(['parent'=>$big['id']])>0){
+                        $mids=$Type->all(['parent'=>$big['id']]);
+                        echo "<div class='s'>";
+                        foreach($mids as $mid){
+                            echo "<a href='?type=".$mid['id']."' style='background:lightgreen'>".$mid['name']."(".$Goods->count(['mid'=>$mid['id'],'sh'=>1]).")</a>";
+                        }
+                        echo "</div>";
+                    }
+                    
+                    echo "</div>";
+                }
+
+            ?>
+
+
             </div>
             <span>
                 <div>進站總人數</div>

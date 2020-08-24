@@ -1,4 +1,9 @@
 <?php include_once "base.php";?>
+<?php
+$admin=$Admin->find(['acc'=>$_SESSION['admin']]);
+$pr=unserialize($admin['pr']);
+
+?>
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- saved from url=(0057)?do=admin -->
@@ -25,12 +30,42 @@
         <div id="left" class="ct">
             <div style="min-height:400px;">
                 <a href="?do=main">管理權限設置</a>
+                <?php
+                    if(in_array(1,$pr)){
+                ?>
                 <a href="?do=th">商品分類與管理</a>
+                <?php
+                }
+                ?>
+                <?php
+                    if(in_array(2,$pr)){
+                ?>
                 <a href="?do=order">訂單管理</a>
+                <?php
+                }
+                ?>
+                <?php
+                    if(in_array(3,$pr)){
+                ?>
                 <a href="?do=mem">會員管理</a>
+                <?php
+                }
+                ?>
+                <?php
+                    if(in_array(4,$pr)){
+                ?>
                 <a href="?do=bot">頁尾版權管理</a>
+                <?php
+                }
+                ?>
+                <?php
+                    if(in_array(5,$pr)){
+                ?>
                 <a href="?do=news">最新消息管理</a>
-                <a style="color:#f00;" onclick="location.href='api/logout.php'">登出</a>
+                <?php
+                }
+                ?>
+                <a href="#" style="color:#f00;" onclick="location.href='logout.php?logout=admin'">登出</a>
             </div>
         </div>
         <div id="right">
